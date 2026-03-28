@@ -94,60 +94,60 @@ const styles = {
 };
 
 function AuthModal({ onClose }) {
-  const [tab, setTab] = useState("login");
+  const [activeTab, setActiveTab] = useState("login");
 
   return (
     <div style={styles.overlay} onClick={onClose}>
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-        <button style={styles.closeBtn} onClick={onClose}>✕</button>
-        <h2 style={{ margin: 0 }}>{tab === "login" ? "Log in" : "Sign up"}</h2>
+        <button style={styles.closeBtn} onClick={onClose}>&times;</button>
+        <h2>{activeTab === "login" ? "Log in" : "Sign up"}</h2>
 
         <button
           style={styles.googleBtn}
-          onClick={() => console.log("Google auth clicked")}
+          onClick={() => console.log(`${activeTab} with Google`)}
         >
-          <img
-            src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg"
-            alt="Google"
-            width={18}
-            height={18}
-          />
-          Continue with Google
+          <span>Continue with Google</span>
         </button>
 
         <div style={styles.divider}>or</div>
 
-        <input style={styles.input} type="email" placeholder="Email" />
-        <input style={styles.input} type="password" placeholder="Password" />
+        <input type="email" placeholder="Email" style={styles.input} />
+        <input type="password" placeholder="Password" style={styles.input} />
 
         <button style={styles.submitBtn}>
-          {tab === "login" ? "Log in" : "Create account"}
+          {activeTab === "login" ? "Log in" : "Sign up"}
         </button>
 
-        <p style={{ textAlign: "center", margin: 0, fontSize: "0.85rem" }}>
-          {tab === "login" ? (
-            <>No account?{" "}
-              <span
-                style={{ color: "#4f46e5", cursor: "pointer" }}
-                onClick={() => setTab("signup")}
-              >Sign up</span>
+        <div style={{ textAlign: "center", marginTop: "0.75rem" }}>
+          {activeTab === "login" ? (
+            <>
+              Don't have an account?{" "}
+              <button
+                style={{ ...styles.googleBtn, padding: "0.25rem 0.5rem" }}
+                onClick={() => setActiveTab("signup")}
+              >
+                Sign up
+              </button>
             </>
           ) : (
-            <>Already have one?{" "}
-              <span
-                style={{ color: "#4f46e5", cursor: "pointer" }}
-                onClick={() => setTab("login")}
-              >Log in</span>
+            <>
+              Already have an account?{" "}
+              <button
+                style={{ ...styles.googleBtn, padding: "0.25rem 0.5rem" }}
+                onClick={() => setActiveTab("login")}
+              >
+                Log in
+              </button>
             </>
           )}
-        </p>
+        </div>
       </div>
     </div>
   );
 }
 
 export default function Languages() {
-  const [selected, setSelected] = useState(null);
+  const [selectedLang, setSelectedLang] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -158,8 +158,8 @@ export default function Languages() {
         {LANGUAGES.map((lang) => (
           <div
             key={lang.code}
-            style={styles.card(selected === lang.code)}
-            onClick={() => setSelected(lang.code)}
+            style={styles.card(selectedLang === lang.code)}
+            onClick={() => setSelectedLang(lang.code)}
           >
             <div style={styles.flag}>{lang.flag}</div>
             <div>{lang.label}</div>
@@ -167,7 +167,7 @@ export default function Languages() {
         ))}
       </div>
 
-      {selected && (
+      {selectedLang && (
         <button style={styles.continueBtn} onClick={() => setShowModal(true)}>
           Continue
         </button>
