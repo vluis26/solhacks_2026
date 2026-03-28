@@ -31,15 +31,17 @@ const styles = {
 };
 
 export default function Home() {
-  // TODO: call useNavigate() and store the result in a variable
+  const navigate = useNavigate();
 
   return (
     <div style={styles.hero}>
-      {/* TODO: add an <h1> with styles.title */}
-
-      {/* TODO: add a <p> with styles.description and a short tagline */}
-
-      {/* TODO: add a <button> with styles.cta that navigates to "/languages" on click */}
+      <h1 style={styles.title}>Learn a new language today</h1>
+      <p style={styles.description}>
+        Pick a language, start practising, and track your progress — all in one place.
+      </p>
+      <button style={styles.cta} onClick={() => navigate("/languages")}>
+        Get Started
+      </button>
     </div>
   );
 }
