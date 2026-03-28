@@ -19,4 +19,14 @@ export default function Navbar() {
   //   - "Home" linking to "/"
   //   - "Languages" linking to "/languages"
   // Apply styles.nav to the <nav> and styles.link to each <Link>
+  return (
+    <nav style={styles.nav}>
+      <Link to="/" style={styles.link}>
+        Home
+      </Link>
+      <Link to="/languages" style={styles.link}>
+        Languages
+      </Link>
+    </nav>
+  );
 }

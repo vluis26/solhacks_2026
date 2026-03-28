@@ -95,24 +95,73 @@ const styles = {
 
 function AuthModal({ onClose }) {
   // TODO: add a state variable for the active tab ("login" or "signup")
-
+  const [activeTab, setActiveTab] = useState("login");
   return (
     <div style={styles.overlay} onClick={onClose}>
       <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+        
         {/* TODO: close button using styles.closeBtn that calls onClose */}
-
+        <button style={styles.closeBtn} onClick={onClose}>
+          &times;
+        </button>
+        
         {/* TODO: <h2> that shows "Log in" or "Sign up" depending on the active tab */}
-
+        <h2>{activeTab === "login" ? "Log in" : "Sign up"}</h2>
+        
         {/* TODO: Google button using styles.googleBtn — onClick just console.log for now */}
-
+        <button
+          style={styles.googleBtn}
+          onClick={() => console.log(`${activeTab} with Google`)}
+        >
+          <span>Continue with Google</span>
+        </button>
+        
         <div style={styles.divider}>or</div>
 
         {/* TODO: email <input> with styles.input */}
+        <input
+          type="email"
+          placeholder="Email"
+          style={styles.input}
+        />
+        
         {/* TODO: password <input> with styles.input */}
+        <input
+          type="password"
+          placeholder="Password"
+          style={styles.input}
+        />
 
         {/* TODO: submit <button> using styles.submitBtn — label changes with active tab */}
-
+        <button style={styles.submitBtn}>
+          {activeTab === "login" ? "Log in" : "Sign up"}
+        </button>
+        
         {/* TODO: toggle link at the bottom to switch between login and signup tabs */}
+        <div style={{ textAlign: "center", marginTop: "0.75rem" }}>
+          {activeTab === "login" ? (
+            <>
+              Don't have an account?{" "}
+              <button
+                style={{ ...styles.googleBtn, padding: "0.25rem 0.5rem" }}
+                onClick={() => setActiveTab("signup")}
+              >
+                Sign up
+              </button>
+            </>
+          ) : (
+            <>
+              Already have an account?{" "}
+              <button
+                style={{ ...styles.googleBtn, padding: "0.25rem 0.5rem" }}
+                onClick={() => setActiveTab("login")}
+              >
+                Log in
+              </button>
+            </>
+          )}
+
+        </div>  
       </div>
     </div>
   );
@@ -120,7 +169,9 @@ function AuthModal({ onClose }) {
 
 export default function Languages() {
   // TODO: add state for the selected language code (initially null)
+  const [selectedLang, setSelectedLang] = useState(null);
   // TODO: add state for whether the modal is visible (initially false)
+  const [showModal, setShowModal] = useState(false);
 
   return (
     <div style={styles.page}>
@@ -133,14 +184,30 @@ export default function Languages() {
           // - style={styles.card(/* is this card selected? */)}
           // - onClick sets the selected language
           // - show lang.flag and lang.label inside
-          <div key={lang.code} />
+          <div
+            key={lang.code}
+            style={styles.card(selectedLang === lang.code)}
+            onClick={() => setSelectedLang(lang.code)}
+          >
+            <span>{lang.flag}</span>
+            <span>{lang.label}</span>
+          </div>
         ))}
       </div>
 
       {/* TODO: show a Continue button (styles.continueBtn) only when a language is selected
                clicking it should open the modal */}
+      {selectedLang && (
+        <button style={styles.continueBtn} onClick={() => setShowModal(true)}>
+          Continue
+        </button>
+      )}
 
       {/* TODO: render <AuthModal> when showModal is true, pass onClose to hide it */}
+      {showModal && (
+        <AuthModal onClose={() => setShowModal(false)} />
+      )}
+
     </div>
   );
 }
