@@ -15,8 +15,11 @@ const styles = {
 };
 
 export default function Navbar() {
-  // TODO: render a <nav> with two <Link> components:
-  //   - "Home" linking to "/"
-  //   - "Languages" linking to "/languages"
-  // Apply styles.nav to the <nav> and styles.link to each <Link>
+  return (
+    <nav style={styles.nav}>
+      <Link to="/" style={styles.link}>Home</Link>
+      <Link to="/languages" style={styles.link}>Languages</Link>
+      <Link to="/dashboard" style={styles.link}>Dashboard</Link>
+    </nav>
+  );
 }
