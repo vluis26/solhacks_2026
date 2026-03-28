@@ -1,7 +1,15 @@
 import uuid
+import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from supabase import create_client
+from dotenv import load_dotenv
+
+load_dotenv()
+url = os.environ.get("SUPABASE_URL")
+key = os.environ.get("SUPABASE_KEY")
+supabase = create_client(url, key)
 
 app = FastAPI()
 
@@ -18,12 +26,12 @@ profiles: dict = {}
 
 class OnboardingRequest(BaseModel):
     name: str
-    household_size: int
-    monthly_income: float
+    household_size: str
+    income: str
     housing_type: str
-    housing_payment: float
+    housing_payment: str
     debt: str
-    savings: float
+    savings: str
     goal: str
 
 
@@ -76,9 +84,9 @@ def health():
 
 @app.post("/api/onboarding", status_code=201)
 def submit_onboarding(body: OnboardingRequest):
-    user_id = str(uuid.uuid4())
-    profiles[user_id] = body.model_dump()
-    return {"id": user_id, **profiles[user_id]}
+    result = supabase.table("user_profiles").insert(body.model_dump()).execute()
+    user_id = result.data[0]["id"]
+    return {"id": user_id}
 
 
 @app.get("/api/dashboard/mock")
