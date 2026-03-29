@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import logoIcon from "../assets/logo-icon.png";
 
 const styles = {
   nav: {
@@ -34,7 +35,9 @@ export default function Navbar() {
 
   return (
     <nav style={styles.nav}>
-      <Link to="/" style={styles.link}>FuturoSeguro</Link>
+      <Link to="/" style={{ display: "flex", alignItems: "center", lineHeight: 0 }}>
+        <img src={logoIcon} alt="Futuro Seguro" style={{ height: "70px", width: "auto", display: "block", objectFit: "contain" }} />
+      </Link>
       {user && <Link to="/dashboard" style={styles.link}>Dashboard</Link>}
       {user && <Link to="/remittance" style={styles.link}>Send Money</Link>}
       <div style={styles.spacer} />

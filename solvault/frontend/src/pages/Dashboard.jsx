@@ -47,7 +47,7 @@ const styles = {
     fontWeight: 700,
     textTransform: "uppercase",
     letterSpacing: "0.06em",
-    color: "#6366f1",
+    color: "#4F6C2A",
     marginBottom: "1rem",
   },
   row: {
@@ -104,7 +104,7 @@ const styles = {
     marginTop: "2px",
     width: "16px",
     height: "16px",
-    border: "2px solid #6366f1",
+    border: "2px solid #4F6C2A",
     borderRadius: "4px",
     flexShrink: 0,
   },
@@ -127,7 +127,7 @@ const styles = {
     marginTop: "0.75rem",
     padding: "0.75rem 1rem",
     backgroundColor: "#f8f9ff",
-    borderLeft: "3px solid #6366f1",
+    borderLeft: "3px solid #4F6C2A",
     borderRadius: "0 6px 6px 0",
   },
   noPackage: {
@@ -140,7 +140,7 @@ const styles = {
   },
   ctaLink: {
     padding: "0.75rem 2rem",
-    backgroundColor: "#6366f1",
+    backgroundColor: "#4F6C2A",
     color: "#fff",
     borderRadius: "6px",
     textDecoration: "none",
@@ -168,7 +168,7 @@ function CashFlowCard({ data }) {
 
 function SpendingPlanCard({ plan }) {
   const buckets = [
-    { label: "Needs (50%)", value: plan.needs, color: "#6366f1", pct: 50 },
+    { label: "Needs (50%)", value: plan.needs, color: "#4F6C2A", pct: 50 },
     { label: "Wants (30%)", value: plan.wants, color: "#a78bfa", pct: 30 },
     { label: "Debt & Savings (20%)", value: plan.savings_debt, color: "#34d399", pct: 20 },
   ];
@@ -215,7 +215,7 @@ function EmergencyFundCard({ fund }) {
           Progress toward 3-month goal — {pct}%
         </div>
         <div style={styles.barTrack}>
-          <div style={styles.bar(pct, pct >= 100 ? "#34d399" : "#6366f1")} />
+          <div style={styles.bar(pct, pct >= 100 ? "#34d399" : "#4F6C2A")} />
         </div>
       </div>
     </div>

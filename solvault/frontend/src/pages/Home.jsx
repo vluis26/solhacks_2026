@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import logoFull from "../assets/logo-full.png";
 
 const styles = {
   hero: {
@@ -23,7 +24,7 @@ const styles = {
     padding: "0.75rem 2rem",
     fontSize: "1rem",
     cursor: "pointer",
-    backgroundColor: "#4f46e5",
+    backgroundColor: "#4F6C2A",
     color: "#fff",
     border: "none",
     borderRadius: "6px",
@@ -35,7 +36,7 @@ export default function Home() {
 
   return (
     <div style={styles.hero}>
-      <h1 style={styles.title}>FuturoSeguro</h1>
+      <img src={logoFull} alt="Futuro Seguro" style={{ width: "320px", marginBottom: "1.5rem" }} />
       <p style={styles.description}>
         Personalized financial planning for immigrant families. Get a clear,
         actionable plan in minutes.

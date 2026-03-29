@@ -73,7 +73,7 @@ export default function CashOutButton({ wallet, amount, fiat = "MXN", onClose })
 
 const styles = {
   button: {
-    backgroundColor: "#16a34a", color: "#fff", border: "none",
+    backgroundColor: "#4F6C2A", color: "#fff", border: "none",
     borderRadius: "8px", padding: "12px 24px", fontSize: "15px",
     fontWeight: "500", cursor: "pointer",
   },

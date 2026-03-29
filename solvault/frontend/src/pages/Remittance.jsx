@@ -132,7 +132,7 @@ const styles = {
     borderRadius: "8px", border: "1px solid #d1d5db", fontSize: "14px", boxSizing: "border-box",
   },
   btnBlue: {
-    backgroundColor: "#6366f1", color: "#fff", border: "none",
+    backgroundColor: "#4F6C2A", color: "#fff", border: "none",
     borderRadius: "8px", padding: "12px 24px", fontSize: "15px",
     fontWeight: "500", cursor: "pointer", width: "100%", marginBottom: "1rem",
   },
