@@ -9,6 +9,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from routers.remittance import remittance_router, actions_router
+from routers.offramp import offramp_router
+
 # ── optional integrations (gracefully absent in pure-local mode) ──────────────
 
 supabase = None
@@ -30,6 +33,10 @@ if _GEMINI_KEY:
 # ── app ───────────────────────────────────────────────────────────────────────
 
 app = FastAPI()
+
+app.include_router(remittance_router)
+app.include_router(actions_router)
+app.include_router(offramp_router)
 
 app.add_middleware(
     CORSMiddleware,

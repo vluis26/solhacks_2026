@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AboutYou from "./pages/AboutYou";
 import Dashboard from "./pages/Dashboard";
+import Remittance from "./pages/Remittance";
 
 export default function App() {
   return (
@@ -28,6 +29,14 @@ export default function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/remittance"
+            element={
+              <ProtectedRoute>
+                <Remittance />
               </ProtectedRoute>
             }
           />

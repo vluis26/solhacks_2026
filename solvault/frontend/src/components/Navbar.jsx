@@ -36,6 +36,7 @@ export default function Navbar() {
     <nav style={styles.nav}>
       <Link to="/" style={styles.link}>FuturoSeguro</Link>
       {user && <Link to="/dashboard" style={styles.link}>Dashboard</Link>}
+      {user && <Link to="/remittance" style={styles.link}>Send Money</Link>}
       <div style={styles.spacer} />
       {user ? (
         <>
