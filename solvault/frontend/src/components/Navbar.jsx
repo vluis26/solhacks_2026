@@ -34,8 +34,7 @@ export default function Navbar() {
 
   return (
     <nav style={styles.nav}>
-      <Link to="/" style={styles.link}>Home</Link>
-      <Link to="/languages" style={styles.link}>Languages</Link>
+      <Link to="/" style={styles.link}>FuturoSeguro</Link>
       {user && <Link to="/dashboard" style={styles.link}>Dashboard</Link>}
       <div style={styles.spacer} />
       {user ? (

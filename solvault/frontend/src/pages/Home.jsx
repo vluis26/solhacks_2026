@@ -31,25 +31,18 @@ const styles = {
 };
 
 export default function Home() {
-  // TODO: call useNavigate() and store the result in a variable
   const navigate = useNavigate();
 
   return (
     <div style={styles.hero}>
-      
-      {/* TODO: add an <h1> with styles.title */}
-      <h1 style={styles.title}>Welcome to Solvault</h1>
-      
-      {/* TODO: add a <p> with styles.description and a short tagline */}
+      <h1 style={styles.title}>FuturoSeguro</h1>
       <p style={styles.description}>
-        Your ultimate destination for exploring and learning programming languages.
+        Personalized financial planning for immigrant families. Get a clear,
+        actionable plan in minutes.
       </p>
-      
-      {/* TODO: add a <button> with styles.cta that navigates to "/languages" on click */}
-      <button style={styles.cta} onClick={() => navigate("/languages")}>
-        Explore Languages
+      <button style={styles.cta} onClick={() => navigate("/login")}>
+        Get My Free Plan
       </button>
-      
     </div>
   );
 }

@@ -66,6 +66,8 @@ export default function Login() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
+  // Already logged in — AuthContext will handle the redirect on SIGNED_IN.
+  // If they land here with an existing session just send them away.
   useEffect(() => {
     if (!loading && user) navigate("/dashboard");
   }, [user, loading, navigate]);
@@ -73,7 +75,9 @@ export default function Login() {
   async function handleGoogleSignIn() {
     await supabase.auth.signInWithOAuth({
       provider: "google",
-      options: { redirectTo: window.location.origin + "/dashboard" },
+      // Redirect back to the app root so AuthContext's onAuthStateChange
+      // can check financial_packages and route to /about-you or /dashboard.
+      options: { redirectTo: window.location.origin },
     });
   }
 

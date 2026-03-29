@@ -11,16 +11,34 @@ export function AuthProvider({ children }) {
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Restore existing session on page load
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      setUser(session?.user ?? null);
-    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+
+        // Only redirect on a new sign-in (not on session restore / token refresh)
+        if (event === "SIGNED_IN" && session?.user) {
+          const { data } = await supabase
+            .from("financial_packages")
+            .select("id")
+            .eq("user_id", session.user.id)
+            .limit(1);
+
+          if (data && data.length > 0) {
+            navigate("/dashboard");
+          } else {
+            navigate("/about-you");
+          }
+        }
+      }
+    );
 
     return () => subscription.unsubscribe();
   }, []);

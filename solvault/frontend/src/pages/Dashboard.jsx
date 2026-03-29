@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { fetchDashboard } from "../api";
+import { useAuth } from "../context/AuthContext";
 
 // ── helpers ──────────────────────────────────────────────────────────────────
 
 function fmt(n) {
   return "$" + Number(n).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-function debtPriority(debtStr) {
-  if (!debtStr) return null;
-  const order = ["credit card", "car loan", "student loan"];
-  const found = order.filter((d) => debtStr.toLowerCase().includes(d));
-  return found.length ? found : null;
 }
 
 // ── styles ───────────────────────────────────────────────────────────────────
@@ -125,6 +120,32 @@ const styles = {
     color: "#e53e3e",
     fontSize: "1rem",
   },
+  summary: {
+    fontSize: "0.95rem",
+    color: "#444",
+    lineHeight: 1.6,
+    marginTop: "0.75rem",
+    padding: "0.75rem 1rem",
+    backgroundColor: "#f8f9ff",
+    borderLeft: "3px solid #6366f1",
+    borderRadius: "0 6px 6px 0",
+  },
+  noPackage: {
+    padding: "4rem 2rem",
+    textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "1rem",
+  },
+  ctaLink: {
+    padding: "0.75rem 2rem",
+    backgroundColor: "#6366f1",
+    color: "#fff",
+    borderRadius: "6px",
+    textDecoration: "none",
+    fontWeight: 500,
+  },
 };
 
 // ── cards ─────────────────────────────────────────────────────────────────────
@@ -221,25 +242,11 @@ function RetirementCard({ recommendation }) {
   );
 }
 
-function DebtCard({ debt }) {
-  const priority = debtPriority(debt);
-  if (!priority) {
-    return (
-      <div style={styles.card}>
-        <div style={styles.cardTitle}>Debt Management</div>
-        <p style={styles.blurb}>No debt reported. Great position to focus on savings and investing!</p>
-      </div>
-    );
-  }
+function DebtCard({ advice }) {
   return (
     <div style={styles.card}>
       <div style={styles.cardTitle}>Debt Management</div>
-      <p style={styles.blurb}>Pay off high-interest debt first. Focus on this order:</p>
-      <ol style={{ paddingLeft: "1.25rem", margin: "0.5rem 0 0", fontSize: "0.95rem", color: "#333", lineHeight: 1.8 }}>
-        {priority.map((d, i) => (
-          <li key={i} style={{ textTransform: "capitalize" }}>{d}</li>
-        ))}
-      </ol>
+      <p style={styles.blurb}>{advice}</p>
     </div>
   );
 }
@@ -264,19 +271,12 @@ function GoalsCard({ goal }) {
   );
 }
 
-function NextStepsCard({ data }) {
-  const steps = [
-    `Open a ${data.retirement_recommendation} account`,
-    "Build your emergency fund to 3 months of housing costs",
-    data.debt ? "Make a plan to pay off high-interest debt first" : "Start investing — consider a low-cost index fund",
-    "Set a monthly savings amount and automate it",
-    "Review this plan in 3 months",
-  ];
+function NextStepsCard({ items }) {
   return (
     <div style={{ ...styles.card, gridColumn: "1 / -1" }}>
       <div style={styles.cardTitle}>Next Steps</div>
       <ul style={styles.checklist}>
-        {steps.map((s, i) => (
+        {items.map((s, i) => (
           <li key={i} style={styles.checkItem}>
             <div style={styles.checkBox} />
             {s}
@@ -289,24 +289,40 @@ function NextStepsCard({ data }) {
 
 // ── page ──────────────────────────────────────────────────────────────────────
 
-export default function Dashboard({ userId = "mock" }) {
+export default function Dashboard() {
+  const { user } = useAuth();
+  const userId = user?.id;
+
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!userId) return;
     fetchDashboard(userId)
       .then(setData)
       .catch((err) => setError(err.message));
   }, [userId]);
 
+  if (error === "NO_PACKAGE") {
+    return (
+      <div style={styles.noPackage}>
+        <p style={{ color: "#555", fontSize: "1rem" }}>
+          You haven't created your financial plan yet.
+        </p>
+        <Link to="/about-you" style={styles.ctaLink}>Create My Plan →</Link>
+      </div>
+    );
+  }
+
   if (error) return <div style={styles.error}>Failed to load dashboard: {error}</div>;
-  if (!data) return <div style={styles.loading}>Loading your financial package…</div>;
+  if (!data)  return <div style={styles.loading}>Loading your financial package…</div>;
 
   return (
     <div style={styles.page}>
       <div style={styles.header}>
         <h1 style={styles.headerTitle}>Your Financial Package</h1>
         <p style={styles.headerSub}>Hello, {data.name} — here's your personalized plan.</p>
+        {data.summary && <div style={styles.summary}>{data.summary}</div>}
       </div>
 
       <div style={styles.grid}>
@@ -314,9 +330,9 @@ export default function Dashboard({ userId = "mock" }) {
         <SpendingPlanCard plan={data.spending_plan} />
         <EmergencyFundCard fund={data.emergency_fund} />
         <RetirementCard recommendation={data.retirement_recommendation} />
-        <DebtCard debt={data.debt} />
+        <DebtCard advice={data.debt_advice} />
         <GoalsCard goal={data.goal} />
-        <NextStepsCard data={data} />
+        <NextStepsCard items={data.action_items} />
       </div>
     </div>
   );

@@ -3,9 +3,9 @@ import { AuthProvider } from "./context/AuthContext";
 import Navbar from "./components/Navbar";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Home from "./pages/Home";
-import Languages from "./pages/Languages";
-import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
+import AboutYou from "./pages/AboutYou";
+import Dashboard from "./pages/Dashboard";
 
 export default function App() {
   return (
@@ -14,8 +14,15 @@ export default function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/languages" element={<Languages />} />
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/about-you"
+            element={
+              <ProtectedRoute>
+                <AboutYou />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/dashboard"
             element={
